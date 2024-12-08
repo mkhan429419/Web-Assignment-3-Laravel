@@ -1,6 +1,9 @@
+<!-- Create pages for your case study (e.g., “About Us”, “Services”, or “Products”) and 
+extend the master layout. -->
 @extends('layouts.app')
 
 @section('title', 'Triathlon PK - Services')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 @section('content')
     <div class="container">
@@ -84,7 +87,7 @@
         </header>
 
         <!-- Pricing Cards -->
-        <div class="pricing-cards" id="pricingCardsContainer">
+        <!-- <div class="pricing-cards" id="pricingCardsContainer">
           <div class="pricing-card">
             <h3>Personal Training</h3>
             <p class="price">$30 <span>per hour</span></p>
@@ -105,8 +108,17 @@
             <p class="plan-description">Relax with full yoga equipment</p>
             <button class="pricing-button">Join a Session</button>
           </div>
-        </div>
-
+        </div> -->
+        <div class="pricing-cards" id="pricingCardsContainer">
+          @foreach ($pricingPlans as $plan)
+              <div class="pricing-card" data-id="{{ $plan->id }}">
+                  <h3>{{ $plan->name }}</h3>
+                  <p class="price">${{ $plan->price }} <span>{{ $plan->rate }}</span></p>
+                  <p class="plan-description">{{ $plan->description }}</p>
+                  <button class="pricing-button">Start free trial</button>
+              </div>
+          @endforeach
+      </div>
         <div id="addPlanModal" class="modal">
           <div class="modal-content">
             <div class="modal-header">
