@@ -35,40 +35,38 @@
     <h1>Contact Us</h1>
     <div class="contact">
         <div class="contact_left">
-            <form>
-                <div class="form">
-                    <div class="content">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" placeholder="Enter your name" required />
-                        <hr />
-                    </div>
-                    <div class="content">
-                        <label for="phone">Phone Number:</label>
-                        <input type="tel" id="phone" placeholder="XXX-XXX-XXXX" required />
-                        <hr />
-                    </div>
-                    <div class="content">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" placeholder="Enter your email" required />
-                        <hr />
-                    </div>
-                    <div class="content">
-                        <label for="trainer">Trainers:</label>
-                        <select id="trainer" class="Trainers">
-                            <option value="Jane Robinson">Jane Robinson</option>
-                            <option value="Brett Whitinui">Brett Whitinui</option>
-                            <option value="Wendy Jones">Wendy Jones</option>
-                        </select>
-                    </div>
-                    <div class="content">
-                        <label for="message">Message:</label>
-                        <textarea id="message" placeholder="Enter your message..." rows="4" required></textarea>
-                    </div>
-                    <div class="button_for_submit">
-                        <button class="submit" type="submit">Submit</button>
-                    </div>
-                </div>
-            </form>
+        <form method="GET" action="" class="form">
+                        <p id="name"></p>
+                        <div class="content">
+                            <label for="name">Name:</label>
+                            <input type="text" placeholder="Enter your name" name="name" autofocus />
+                            <hr />
+                        </div>
+                        <div class="content">
+                            <p id="phone"></p>
+                            <label for="phone">Phone Number:</label>
+                            <input type="text" placeholder="XXX-XXX-XXXX" name="phone" />
+                            <hr />
+                            <p id="email"></p>
+                            <label for="email">Email:</label>
+                            <input type="text" placeholder="Enter your email" name="email" />
+                            <hr />
+                            <label for="trainer">Trainers:</label>
+                            <select name="trainer" class="Trainers">
+                                <option value="Jane Robinson">Jane Robinson</option>
+                                <option value="Brett Whitinui">Brett Whitinui</option>
+                                <option value="Wendy Jones">Wendy Jones</option>
+                            </select>
+                        </div>
+                        <div class="content">
+                            <label for="message">Message:</label>
+                            <br /><br />
+                            <textarea name="message" placeholder="Enter your message..." ></textarea>
+                        </div>
+                        <div class="button_for_submit">
+                            <button class="submit" type="submit">Submit</button>
+                        </div>
+                </form>
         </div>
         <div class="contact_right">
             <img src="{{ asset('images/section_bg.jpg') }}" alt="Contact image">
