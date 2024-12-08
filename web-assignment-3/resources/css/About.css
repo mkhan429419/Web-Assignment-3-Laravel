@@ -59,6 +59,7 @@ body {
 
 .navigation__list {
     display: flex;
+    align-items: center;
     gap: 30px;
     list-style: none;
 }
@@ -84,6 +85,21 @@ body {
 }
 .navigation__link:hover::after {
     transform: scaleX(1);
+}
+.navigation__item form {
+    display: inline;
+}
+.navigation__link.logout_link {
+    background-color: var(--highlight-color); 
+    border: none; 
+    padding: 10px 15px; 
+    font-size: 14px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+}
+.navigation__link.logout_link:hover {
+    background-color:#dbb88a; 
 }
 .navbar__checkbox {
     display: none;
@@ -142,7 +158,7 @@ body {
 
 /* section 1 */
 .section_1 {
-    background-image: url("./images/section_bg.jpg");
+    background-image: url("/public/images/section_bg.jpg");
     background-repeat: no-repeat;
     padding-bottom: 300px;
     background-size: 100% 100%;
