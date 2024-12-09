@@ -79,10 +79,12 @@ extend the master layout. -->
             <p class="pricing-description">
               Choose the right plan for your training needs
             </p>
+            <div>
             <button id="addItemBtn" class="cta-button">Add Item</button>
             <button id="removeItemBtn" class="cta-button">
               Remove last item
             </button>
+            </div>
           </div>
         </header>
 
@@ -116,6 +118,7 @@ extend the master layout. -->
                   <p class="price">${{ $plan->price }} <span>{{ $plan->rate }}</span></p>
                   <p class="plan-description">{{ $plan->description }}</p>
                   <button class="pricing-button">Start free trial</button>
+                  <button id="update-button">Update plan</button>
               </div>
           @endforeach
       </div>
@@ -162,6 +165,57 @@ extend the master layout. -->
             </form>
           </div>
         </div>
+        @if ($pricingPlans->isNotEmpty())
+        <div id="updatePlanModal" class="modal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button class="close-btn" id="closeUpdateModal">&times;</button>
+            </div>
+            <h2>Update the Pricing Plan</h2>
+            <form id="updatePlanForm">
+              @csrf
+              @method('PUT')
+              <input type="hidden" id="planId" value="{{ $plan->id }}"  />
+              <label for="planName">Plan Name:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter plan name"
+                required
+              />
+
+              <label for="planPrice">Price ($):</label>
+              <input
+                type="number"
+                id="price"
+                name="price"
+                placeholder="Enter price"
+                required
+              />
+
+              <label for="planRate">Rate Per Period:</label>
+              <input
+                type="text"
+                id="rate"
+                name="rate"
+                placeholder="e.g., per session"
+                required
+              />
+
+              <label for="planDescription">Description:</label>
+              <textarea
+                id="description"
+                placeholder="Provide a brief description"
+                name="description"
+                rows="4"
+                required
+              ></textarea>
+              <button type="submit">Update Plan</button>
+            </form>
+          </div>
+        </div>
+        @endif
 
         <!-- Feature Comparison Table -->
         <table class="feature-comparison">

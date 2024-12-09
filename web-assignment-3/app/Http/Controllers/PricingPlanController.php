@@ -44,4 +44,29 @@ class PricingPlanController extends Controller
             return response()->json(['message' => 'An error occurred while deleting the plan.'], 500);
         }
     }
+    public function update(Request $request, $id)
+{
+    try {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'rate' => 'required|string|max:255',
+            'description' => 'required|string',
+        ]);
+
+        $plan = PricingPlan::findOrFail($id);
+        $plan->update($validated);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Plan updated successfully!',
+            'data' => $plan,
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage(),
+        ], 500);
+    }
+}
 }

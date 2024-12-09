@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function () {
 Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 Route::get('/pricing', [PricingPlanController::class, 'index']);
 Route::post('/pricing', [PricingPlanController::class, 'store']);
+Route::put('/pricing/{id}', [PricingPlanController::class, 'update'])->name('pricing.update');
 Route::delete('/pricing/{id}', [PricingPlanController::class, 'destroy'])->name('pricing.delete');
 Route::get('/services', [PricingPlanController::class, 'index'])->name('services');
 });
