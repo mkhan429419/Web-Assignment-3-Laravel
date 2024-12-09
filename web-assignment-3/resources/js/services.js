@@ -29,23 +29,17 @@ addItemBtn?.addEventListener("click", () => {
 closeModal?.addEventListener("click", () => {
     addPlanModal.style.display = "none";
 });
-updatePlanBtn?.forEach((button) => {
-    button.addEventListener("click", () => {
-        updatePlanModal.style.display = "flex";
-    });
-});
+
 closeUpdateModal?.addEventListener("click", () => {
     updatePlanModal.style.display = "none";
 });
+
 addPlanForm?.addEventListener("submit", (e) => {
     e.preventDefault();
-
-    // Get Form Values
     const planName = document.getElementById("planName").value;
     const planPrice = document.getElementById("planPrice").value;
     const planDescription = document.getElementById("planDescription").value;
     const planRate = document.getElementById("planRate").value;
-
     fetch("/pricing", {
         method: "POST",
         headers: {
@@ -61,34 +55,169 @@ addPlanForm?.addEventListener("submit", (e) => {
             rate: planRate,
         }),
     })
-        .then((response) => response.json())
+        .then((response) => {
+            if (!response.ok) {
+                return response.json().then((errorData) => {
+                    throw new Error(
+                        errorData.message || "Something went wrong"
+                    );
+                });
+            }
+            return response.json();
+        })
         .then((data) => {
             const newCard = document.createElement("div");
             newCard.classList.add("pricing-card");
-            newCard.dataset.id = data.plan.id; // Set the ID on the new card
+            newCard.dataset.id = data.plan.id;
             newCard.innerHTML = `
             <h3>${data.plan.name}</h3>
-            <p class="price">${data.plan.price} <span>${data.plan.rate}</span></p>
+            <p class="price">$${data.plan.price} <span>${data.plan.rate}</span></p>
             <p class="plan-description">${data.plan.description}</p>
             <button class="pricing-button">Get Started</button>
-            <button id="update-button" class="update-plan-button" >Update plan</button>
+            <button id="update-button" class="update-plan-button"  >Update plan</button>
         `;
             pricingCardsContainer.appendChild(newCard);
-            const updateButton = newCard.querySelector(".update-plan-button");
-            updateButton.addEventListener("click", () => {
-                const planId = newCard.dataset.id;
-                document.getElementById("planId").value = planId;
-                document.getElementById("name").value = data.plan.name;
-                document.getElementById("price").value = data.plan.price;
-                document.getElementById("description").value =
-                    data.plan.description;
-                document.getElementById("rate").value = data.plan.rate;
-                updatePlanModal.style.display = "flex";
-            });
             addPlanForm.reset();
             addPlanModal.style.display = "none";
         })
         .catch((error) => console.error("Error:", error));
+});
+function createModal() {
+    const modalHtml = `
+        <div id="updatePlanModal" class="modal">
+            <div class="modal-content">
+               <div class="modal-header">
+                    <button class="close-btn" id="closeUpdateModal">&times;</button>
+                </div>
+               <h2>Update the Pricing Plan</h2>
+            <form id="updatePlanForm">
+              <input type="hidden" id="planId" value="{{ $plan->id }}"  />
+              <label for="planName">Plan Name:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter plan name"
+                required
+              />
+
+              <label for="planPrice">Price ($):</label>
+              <input
+                type="number"
+                id="price"
+                name="price"
+                placeholder="Enter price"
+                required
+              />
+
+              <label for="planRate">Rate Per Period:</label>
+              <input
+                type="text"
+                id="rate"
+                name="rate"
+                placeholder="e.g., per session"
+                required
+              />
+
+              <label for="planDescription">Description:</label>
+              <textarea
+                id="description"
+                placeholder="Provide a brief description"
+                name="description"
+                rows="4"
+                required
+              ></textarea>
+              <button type="submit">Update Plan</button>
+            </form>
+            </div>
+        </div>
+    `;
+    const modalContainer = document.createElement("div");
+    modalContainer.innerHTML = modalHtml;
+    document.body.appendChild(modalContainer);
+    attachModalEventListeners();
+}
+function attachModalEventListeners() {
+    const updatePlanModal = document.getElementById("updatePlanModal");
+    const closeUpdateModal = document.getElementById("closeUpdateModal");
+    closeUpdateModal.addEventListener("click", () => {
+        updatePlanModal.style.display = "none";
+    });
+    const updatePlanForm = document.getElementById("updatePlanForm");
+    updatePlanForm?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const planId = document.getElementById("planId").value;
+        const planName = document.getElementById("name").value;
+        const planPrice = document.getElementById("price").value;
+        const planDescription = document.getElementById("description").value;
+        const planRate = document.getElementById("rate").value;
+        console.log({
+            planId,
+            planName,
+            planPrice,
+            planDescription,
+            planRate,
+        });
+        fetch(`/pricing/${planId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document.querySelector(
+                    'meta[name="csrf-token"]'
+                ).content,
+            },
+            body: JSON.stringify({
+                name: planName,
+                price: planPrice,
+                rate: planRate,
+                description: planDescription,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    const specificCard = document.querySelector(
+                        `.pricing-card[data-id='${planId}']`
+                    );
+                    if (specificCard) {
+                        specificCard.querySelector("h3").textContent = planName;
+                        specificCard.querySelector(
+                            ".price"
+                        ).innerHTML = `$${planPrice} <span>${planRate}</span>`;
+                        specificCard.querySelector(
+                            ".plan-description"
+                        ).textContent = planDescription;
+                    }
+                    updatePlanModal.style.display = "none";
+                    updatePlanForm.reset();
+                } else {
+                    console.error("Error updating the plan: ", data.message);
+                }
+            })
+            .catch((error) => console.error("Error:", error));
+    });
+}
+pricingCardsContainer.addEventListener("click", (event) => {
+    console.log(event.target);
+    console.log(event.target.closest(".pricing-card"));
+    const card = event.target.closest(".pricing-card");
+    const planId = card.dataset.id;
+    if (!document.getElementById("updatePlanModal")) {
+        createModal();
+    }
+    const updatePlanModal = document.getElementById("updatePlanModal");
+    const modalForm = updatePlanModal.querySelector("#updatePlanForm");
+    modalForm.querySelector("#planId").value = planId;
+    modalForm.querySelector("#name").value =
+        card.querySelector("h3").textContent;
+    const priceText = card.querySelector(".price").textContent;
+    const priceValue = priceText.replace(/[^\d.-]/g, "");
+    modalForm.querySelector("#price").value = priceValue;
+    modalForm.querySelector("#description").value =
+        card.querySelector(".plan-description").textContent;
+    modalForm.querySelector("#rate").value =
+        card.querySelector(".price span").textContent;
+    updatePlanModal.style.display = "flex";
 });
 removeItemBtn?.addEventListener("click", () => {
     const pricingCardsContainer = document.getElementById(
@@ -123,57 +252,6 @@ removeItemBtn?.addEventListener("click", () => {
                 console.error("Error:", error);
             });
     }
-});
-updatePlanForm?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const planId = document.getElementById("planId").value;
-    const planName = document.getElementById("name").value;
-    const planPrice = document.getElementById("price").value;
-    const planDescription = document.getElementById("description").value;
-    const planRate = document.getElementById("rate").value;
-    console.log({
-        planId,
-        planName,
-        planPrice,
-        planDescription,
-        planRate,
-    });
-    fetch(`/pricing/${planId}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
-                .content,
-        },
-        body: JSON.stringify({
-            name: planName,
-            price: planPrice,
-            rate: planRate,
-            description: planDescription,
-        }),
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.success) {
-                const specificCard = document.querySelector(
-                    `.pricing-card[data-id='${planId}']`
-                );
-                if (specificCard) {
-                    specificCard.querySelector("h3").textContent = planName;
-                    specificCard.querySelector(
-                        ".price"
-                    ).innerHTML = `${planPrice} <span>${planRate}</span>`;
-                    specificCard.querySelector(
-                        ".plan-description"
-                    ).textContent = planDescription;
-                }
-                updatePlanModal.style.display = "none";
-                updatePlanForm.reset();
-            } else {
-                console.error("Error updating the plan: ", data.message);
-            }
-        })
-        .catch((error) => console.error("Error:", error));
 });
 featureImages.forEach((image) => {
     const originalSrc = image.getAttribute("data-original");

@@ -20,16 +20,16 @@ class PricingPlanController extends Controller
     {
     try {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'rate' => 'required|string|max:255',
+            'name' => 'required|string',
+            'price' => 'required|numeric',
+            'rate' => 'required|string',
             'description' => 'required|string',
         ]);
         $plan = PricingPlan::create($validated);
         return response()->json(['message' => 'Service created successfully!', 'plan' => $plan], 201);
     } catch (\Exception $e) {
         \Log::error('Error creating pricing plan: ' . $e->getMessage());
-        return response()->json(['message' => 'An error occurred'], 500);
+        return response()->json(['message' => $e->getMessage()], 500);
     }
     }
     // deleting plan
@@ -48,9 +48,9 @@ class PricingPlanController extends Controller
 {
     try {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'rate' => 'required|string|max:255',
+           'name' => 'required|string',
+            'price' => 'required|numeric',
+            'rate' => 'required|string',
             'description' => 'required|string',
         ]);
 
@@ -63,10 +63,18 @@ class PricingPlanController extends Controller
             'data' => $plan,
         ]);
     } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => $e->getMessage(),
-        ], 500);
+        \Log::error('Error updating pricing plan: ' . $e->getMessage());
+        return response()->json(['message' => $e->getMessage()], 500);
     }
 }
+public function show($id)
+{
+    $plan = PricingPlan::find($id); // Replace with your model's name
+    if (!$plan) {
+        return response()->json(['success' => false, 'message' => 'Plan not found'], 404);
+    }
+
+    return response()->json(['success' => true, 'plan' => $plan], 200);
+}
+
 }
