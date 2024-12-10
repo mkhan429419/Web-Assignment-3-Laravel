@@ -21,54 +21,24 @@ extend the master layout. -->
         </header>
 
         <div class="features-grid">
-          <article class="feature-card">
+    @foreach ($services as $service)
+        <article class="feature-card">
             <img
-              loading="lazy"
-              src="images/s11.png"
-              data-original="images/s11.png"
-              data-hover="images/s11-hover.png"
-              class="feature-image"
-              alt="Collaboration Teams feature illustration"
+                loading="lazy"
+                src="{{ asset($service->image_url) }}"
+                data-original="{{ asset($service->image_url) }}"
+                data-hover="{{ asset($service->hover_image_url) }}"
+                class="feature-image"
+                alt="{{ $service->title }} feature illustration"
+                onmouseover="this.src='{{ asset($service->hover_image_url) }}';"
+                onmouseout="this.src='{{ asset($service->image_url) }}';"
             />
-            <h3 class="feature-title">Weight Training Area</h3>
-            <p class="feature-description">
-              Our weight training area is fully equipped with a bench press,
-              squat rack, free weights, and leg press to build strength.
-            </p>
-          </article>
+            <h3 class="feature-title">{{ $service->title }}</h3>
+            <p class="feature-description">{{ $service->description }}</p>
+        </article>
+    @endforeach
+</div>
 
-          <article class="feature-card">
-            <img
-              loading="lazy"
-              src="images/s2.png"
-              data-original="images/s2.png"
-              data-hover="images/s2-hover.png"
-              class="feature-image"
-              alt="Cloud Storage feature illustration"
-            />
-            <h3 class="feature-title">Yoga & Pilates</h3>
-            <p class="feature-description">
-              Train your mind and body with our full yoga and Pilates equipment
-              on a specially designed sports training floor.
-            </p>
-          </article>
-
-          <article class="feature-card">
-            <img
-              loading="lazy"
-              src="images/s3.png"
-              data-original="images/s3.png"
-              data-hover="images/s3-hover.png"
-              class="feature-image"
-              alt="Daily Analytics feature illustration"
-            />
-            <h3 class="feature-title">Endless Pool</h3>
-            <p class="feature-description">
-              Train like a pro with our endless pool designed for low-impact,
-              high-intensity swimming workouts.
-            </p>
-          </article>
-        </div>
       </section>
 
       <!-- Pricing Section -->

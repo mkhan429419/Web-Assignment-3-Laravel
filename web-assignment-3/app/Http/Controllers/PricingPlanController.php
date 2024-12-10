@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PricingPlan;
+use App\Models\Service;
 
 class PricingPlanController extends Controller
 {
     // display all pricing plans
     public function index(){
         $pricingPlans = PricingPlan::all();
+        $services = Service::all();
         if (request()->wantsJson()) {
             return response()->json($pricingPlans);
         }
-        return view('services', compact('pricingPlans'));
+        return view('services', compact('pricingPlans', 'services'));
     }
     // creating a new pricing plan
     public function store(Request $request)
