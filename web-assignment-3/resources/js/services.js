@@ -233,46 +233,54 @@ removeItemBtn?.addEventListener("click", () => {
         "pricingCardsContainer"
     );
     let lastCard = pricingCardsContainer.lastElementChild;
-    // If there is a last card, we proceed to delete it
+    // if there is a last card we start to delete it
     if (lastCard) {
         const id = lastCard.dataset.id;
         if (!id) {
             console.error("Plan ID not found!");
             return;
         }
-        // making a delete request to server
-        fetch(`/pricing/${id}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": document
-                    .querySelector('meta[name="csrf-token"]')
-                    .getAttribute("content"),
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                    pricingCardsContainer.removeChild(lastCard);
-                    console.log("Plan deleted successfully.");
-                } else {
-                    console.error("Error deleting the plan: ", data.message);
-                }
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete this plan?"
+        ); // asking for confirmation before deletion
+        if (confirmDelete) {
+            // making a delete request to server
+            fetch(`/pricing/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document
+                        .querySelector('meta[name="csrf-token"]')
+                        .getAttribute("content"),
+                },
             })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        pricingCardsContainer.removeChild(lastCard);
+                        console.log("Plan deleted successfully.");
+                    } else {
+                        console.error(
+                            "Error deleting the plan: ",
+                            data.message
+                        );
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        } else {
+            console.log("Plan deletion canceled."); // if user cancels the deletion
+        }
     }
 });
 featureImages.forEach((image) => {
     const originalSrc = image.getAttribute("data-original");
     const hoverSrc = image.getAttribute("data-hover");
-
     // Change the image source on hover
     image.addEventListener("mouseover", () => {
         image.src = hoverSrc;
     });
-
     image.addEventListener("mouseout", () => {
         image.src = originalSrc;
     });
