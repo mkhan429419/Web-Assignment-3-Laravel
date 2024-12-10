@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\PricingPlanController;
 use App\Http\Controllers\SpecialtyController;
+use App\Http\Controllers\FacilityController;
 
 // Routes accessible to guests (unauthenticated users)
 Route::middleware('guest')->group(function () {
@@ -32,9 +33,7 @@ Route::get('/services', [PricingPlanController::class, 'index'])->name('services
 });
 Route::get('/home', [SpecialtyController::class, 'index'])->name('home'); // Name the route 'home'
 
-Route::get('/about', function () {
-    return view('about');
-})->name('about'); // Name the route 'about'
+Route::get('/about', [FacilityController::class, 'index'])->name('about'); // Name the route 'about'
 
 Route::get('/contact', function () {
     return view('contact');

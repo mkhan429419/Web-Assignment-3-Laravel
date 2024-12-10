@@ -20,36 +20,21 @@
         </div>
     </section>
     <section class="section_2">
-        <div class="facilities">
-            <h2>Facilities</h2>
-            <div class="card_section">
+    <div class="facilities">
+        <h2>Facilities</h2>
+        <div class="card_section">
+            @foreach ($facilities as $facility)
                 <div class="card">
-                    <img src="./images/leg_press.jpg" alt="bench" />
-                    <h2>Well equipped</h2>
+                    <img src="{{ asset($facility->image_url) }}" alt="{{ $facility->title }}" />
+                    <h2>{{ $facility->title }}</h2>
                     <hr />
-                    <p>
-                        Many equipments including benchpress, squat rack, free weights,
-                        leg press, and much more.
-                    </p>
+                    <p>{{ $facility->description }}</p>
                 </div>
-                <div class="card">
-                    <img src="./images/yoga.jpg" alt="yoga" />
-                    <h2>Training Floor</h2>
-                    <hr />
-                    <p>
-                        Full yoga mats and Pilates equipment with a newly
-                        installed swimming pool.
-                    </p>
-                </div>
-                <div class="card">
-                    <img src="./images/waiting.jpg" alt="wait" />
-                    <h2>Waiting Area</h2>
-                    <hr />
-                    <p>Comfortable chairs and couches along with TV for parents.</p>
-                </div>
-            </div>
+            @endforeach
         </div>
-    </section>
+    </div>
+</section>
+
     <section class="section_3">
         <h1>Instructors</h1>
         <div class="Profiles">
