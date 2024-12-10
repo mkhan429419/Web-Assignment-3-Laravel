@@ -45,67 +45,31 @@
       </div>
     </section>
     <section class="section section__specialties">
-      <div class="section__header">
-        <h1 class="section__heading">Our Specialties</h1>
-        <div class="style__btns">
-          <button class="btn btn__bg">Change Background</button>
-          <button class="btn btn__txt__style">Change Text Style</button>
-          <button class="btn btn__reset__txt__style">
-            Reset Text Style
-          </button>
+  <div class="section__header">
+    <h1 class="section__heading">Our Specialties</h1>
+    <div class="style__btns">
+      <button class="btn btn__bg">Change Background</button>
+      <button class="btn btn__txt__style">Change Text Style</button>
+      <button class="btn btn__reset__txt__style">Reset Text Style</button>
+    </div>
+  </div>
+  <div class="specialities__cards">
+    @foreach ($specialties as $specialty)
+      <div class="card specialties__card">
+        <img src="{{ asset($specialty->image_url) }}" alt="{{ $specialty->title }}" class="card__img" />
+        <div class="card__content">
+          <h3 class="card__title">{{ $specialty->title }}</h3>
+          <a href="#" class="btn btn__card btn__show">Show Details</a>
+          <a href="#" class="btn btn__card btn__hide">Hide Details</a>
+          <p class="card__text hide">
+            {{ $specialty->description }}
+          </p>
         </div>
       </div>
-      <div class="specialities__cards">
-        <div class="card specialties__card">
-          <img src="images/speciality-1.jpg" alt="Events" class="card__img" />
-          <div class="card__content">
-            <h3 class="card__title">Events</h3>
-            <a href="#" class="btn btn__card btn__show">Show Details</a>
-            <a href="#" class="btn btn__card btn__hide">Hide Details</a>
-            <p class="card__text hide">
-              Join us for exciting triathlon events across Pakistan! Check our calendar for upcoming races and be part of the
-              challenge.
-            </p>
-          </div>
-        </div>
-        <div class="card specialties__card">
-          <img src="images/speciality-2.jpg" alt="Results from Competitions" class="card__img" />
-          <div class="card__content">
-            <h3 class="card__title">Results from Competitions</h3>
-            <a href="#" class="btn btn__card btn__show">Show Details</a>
-            <a href="#" class="btn btn__card btn__hide">Hide Details</a>
-            <p class="card__text hide">
-              Celebrate the achievements of our athletes! View the results from our latest competitions. Join us in honoring their
-              hard work.
-            </p>
-          </div>
-        </div>
-        <div class="card specialties__card">
-          <img src="images/speciality-3.jpg" alt="Bootcamp fitness" class="card__img" />
-          <div class="card__content">
-            <h3 class="card__title">Boot Camp Fitness</h3>
-            <a href="#" class="btn btn__card btn__show">Show Details</a>
-            <a href="#" class="btn btn__card btn__hide">Hide Details</a>
-            <p class="card__text hide">
-              Transform your fitness with our dynamic Boot Camp classes! Designed for all levels, our program builds a supportive
-              community.
-            </p>
-          </div>
-        </div>
-        <div class="card specialties__card">
-          <img src="images/speciality-4.jpg" alt="Sports Training" class="card__img" />
-          <div class="card__content">
-            <h3 class="card__title">Sports Training</h3>
-            <a href="#" class="btn btn__card btn__show">Show Details</a>
-            <a href="#" class="btn btn__card btn__hide">Hide Details</a>
-            <p class="card__text hide">
-              Ready to take your performance to the next level? Our expert coaches offer specialized training in cycling, running,
-              and triathlon.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+    @endforeach
+  </div>
+</section>
+
   </main>
 </div>
 @endsection

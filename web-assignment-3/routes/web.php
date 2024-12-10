@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\PricingPlanController;
+use App\Http\Controllers\SpecialtyController;
 
 // Routes accessible to guests (unauthenticated users)
 Route::middleware('guest')->group(function () {
@@ -29,9 +30,7 @@ Route::delete('/pricing/{id}', [PricingPlanController::class, 'destroy'])->name(
 Route::get('/pricing/{id}', [PricingPlanController::class, 'show'])->name('pricing.show');
 Route::get('/services', [PricingPlanController::class, 'index'])->name('services');
 });
-Route::get('/home', function () {
-    return view('index');
-})->name('home'); // Name the route 'home'
+Route::get('/home', [SpecialtyController::class, 'index'])->name('home'); // Name the route 'home'
 
 Route::get('/about', function () {
     return view('about');
