@@ -16,8 +16,6 @@ This project is a dynamic web application built with **Laravel PHP** as part of 
 
 Follow the steps below to set up the project on your local machine:
 
-### 1. **Clone the Repository**
-
 ```bash
 git clone https://github.com/mkhan429419/Web-Assignment-3-Laravel.git
 cd web-assignment-3
