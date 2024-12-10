@@ -11,5 +11,5 @@ class PricingPlan extends Model
         'price',
         'rate',
         'description'
-    ];
+    ];  // making these fields mass-assignable
 }

@@ -18,7 +18,7 @@ const pricingCardsContainer = document.getElementById("pricingCardsContainer");
 const pricingSection = document.querySelector(".pricing-section");
 const featureImages = document.querySelectorAll(".feature-image");
 
-getStartedBtn.addEventListener("click", () => {
+getStartedBtn?.addEventListener("click", () => {
     pricingSection.scrollIntoView({ behavior: "smooth" });
 });
 
@@ -33,13 +33,14 @@ closeModal?.addEventListener("click", () => {
 closeUpdateModal?.addEventListener("click", () => {
     updatePlanModal.style.display = "none";
 });
-
+// handling submission of add plan form
 addPlanForm?.addEventListener("submit", (e) => {
     e.preventDefault();
     const planName = document.getElementById("planName").value;
     const planPrice = document.getElementById("planPrice").value;
     const planDescription = document.getElementById("planDescription").value;
     const planRate = document.getElementById("planRate").value;
+    // sending post request for creating new plan
     fetch("/pricing", {
         method: "POST",
         headers: {
@@ -66,6 +67,7 @@ addPlanForm?.addEventListener("submit", (e) => {
             return response.json();
         })
         .then((data) => {
+            // creating a new pricing card
             const newCard = document.createElement("div");
             newCard.classList.add("pricing-card");
             newCard.dataset.id = data.plan.id;
@@ -77,11 +79,12 @@ addPlanForm?.addEventListener("submit", (e) => {
             <button id="update-button" class="update-plan-button"  >Update plan</button>
         `;
             pricingCardsContainer.appendChild(newCard);
-            addPlanForm.reset();
+            addPlanForm.reset(); // reset forms fields
             addPlanModal.style.display = "none";
         })
         .catch((error) => console.error("Error:", error));
 });
+// creating and attaching update plan model to dom
 function createModal() {
     const modalHtml = `
         <div id="updatePlanModal" class="modal">
@@ -137,6 +140,7 @@ function createModal() {
     document.body.appendChild(modalContainer);
     attachModalEventListeners();
 }
+// attaching event listener at update modal after its creation
 function attachModalEventListeners() {
     const updatePlanModal = document.getElementById("updatePlanModal");
     const closeUpdateModal = document.getElementById("closeUpdateModal");
@@ -151,13 +155,14 @@ function attachModalEventListeners() {
         const planPrice = document.getElementById("price").value;
         const planDescription = document.getElementById("description").value;
         const planRate = document.getElementById("rate").value;
-        console.log({
-            planId,
-            planName,
-            planPrice,
-            planDescription,
-            planRate,
-        });
+        // console.log({
+        //     planId,
+        //     planName,
+        //     planPrice,
+        //     planDescription,
+        //     planRate,
+        // });
+        // sending put request to update the plan
         fetch(`/pricing/${planId}`, {
             method: "PUT",
             headers: {
@@ -176,6 +181,7 @@ function attachModalEventListeners() {
             .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
+                    // showing the updated data on corresponding card
                     const specificCard = document.querySelector(
                         `.pricing-card[data-id='${planId}']`
                     );
@@ -189,7 +195,7 @@ function attachModalEventListeners() {
                         ).textContent = planDescription;
                     }
                     updatePlanModal.style.display = "none";
-                    updatePlanForm.reset();
+                    updatePlanForm.reset(); // reseting form fields
                 } else {
                     console.error("Error updating the plan: ", data.message);
                 }
@@ -199,14 +205,16 @@ function attachModalEventListeners() {
 }
 pricingCardsContainer.addEventListener("click", (event) => {
     console.log(event.target);
-    console.log(event.target.closest(".pricing-card"));
-    const card = event.target.closest(".pricing-card");
-    const planId = card.dataset.id;
+    // console.log(event.target.closest(".pricing-card"));
+    if (event.target.id !== "update-button") return;
+    const card = event.target.closest(".pricing-card"); // finding closest card
+    const planId = card.dataset.id; // getting card if from dataset
     if (!document.getElementById("updatePlanModal")) {
         createModal();
     }
     const updatePlanModal = document.getElementById("updatePlanModal");
     const modalForm = updatePlanModal.querySelector("#updatePlanForm");
+    // populating update modal with data of clicked card
     modalForm.querySelector("#planId").value = planId;
     modalForm.querySelector("#name").value =
         card.querySelector("h3").textContent;
@@ -217,6 +225,7 @@ pricingCardsContainer.addEventListener("click", (event) => {
         card.querySelector(".plan-description").textContent;
     modalForm.querySelector("#rate").value =
         card.querySelector(".price span").textContent;
+    // displaying the modal
     updatePlanModal.style.display = "flex";
 });
 removeItemBtn?.addEventListener("click", () => {
@@ -224,12 +233,14 @@ removeItemBtn?.addEventListener("click", () => {
         "pricingCardsContainer"
     );
     let lastCard = pricingCardsContainer.lastElementChild;
+    // If there is a last card, we proceed to delete it
     if (lastCard) {
         const id = lastCard.dataset.id;
         if (!id) {
             console.error("Plan ID not found!");
             return;
         }
+        // making a delete request to server
         fetch(`/pricing/${id}`, {
             method: "DELETE",
             headers: {

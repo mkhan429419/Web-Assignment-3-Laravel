@@ -12,12 +12,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('services', function (Blueprint $table) {
-            $table->id(); // Primary key
-            $table->string('title'); // Service title (e.g., "Weight Training Area")
-            $table->text('description'); // Description of the service
-            $table->string('image_url'); // Path or URL for the default image
-            $table->string('hover_image_url'); // Path or URL for the hover image
-            $table->timestamps(); // Created_at and updated_at
+            $table->id(); 
+            $table->string('title');
+            $table->text('description');
+            $table->string('image_url'); 
+            $table->string('hover_image_url'); 
+            $table->timestamps(); 
         });
     }
 

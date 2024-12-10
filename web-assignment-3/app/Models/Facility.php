@@ -8,6 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Facility extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['title', 'image_url', 'description'];
+    protected $fillable = ['title', 'image_url', 'description']; // making these fields mass-assignable
 }

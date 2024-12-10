@@ -9,14 +9,14 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('specialties', function (Blueprint $table) {
-            $table->id(); 
-            $table->string('title'); 
+        Schema::create('instructors', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('image_url');
             $table->text('description');
-            $table->string('image_url'); 
-            $table->timestamps(); 
+            $table->timestamps();
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('specialties');
+        Schema::dropIfExists('instructors');
     }
 };

@@ -20,54 +20,32 @@
         </div>
     </section>
     <section class="section_2">
-    <div class="facilities">
-        <h2>Facilities</h2>
-        <div class="card_section">
-            @foreach ($facilities as $facility)
-                <div class="card">
-                    <img src="{{ asset($facility->image_url) }}" alt="{{ $facility->title }}" />
-                    <h2>{{ $facility->title }}</h2>
-                    <hr />
-                    <p>{{ $facility->description }}</p>
-                </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-
-    <section class="section_3">
-        <h1>Instructors</h1>
-        <div class="Profiles">
-            <div class="profile_card">
-                <img src="./images/Jane.jpg" alt="profile 1" />
-                <div class="content">
-                    <h1>Jane Robinson</h1>
-                    <p>
-                        A yoga instructor with 10 years of experience. She is a very
-                        passionate person who creates a healthy environment around her.
-                    </p>
-                </div>
-            </div>
-            <div class="profile_card">
-                <img src="./images/brett.jpg" alt="profile 2" />
-                <div class="content">
-                    <h1>Brett Whitinui</h1>
-                    <p>
-                        A gym instructor who has been coaching for 15 years. He helps
-                        clients achieve their fitness goals.
-                    </p>
-                </div>
-            </div>
-            <div class="profile_card">
-                <img src="./images/wendyy.jpg" alt="profile 3" />
-                <div class="content">
-                    <h1>Wendy Jones</h1>
-                    <p>
-                        Wendy is a swimming coach with 8 years of experience. She is a
-                        dedicated professional specializing in advanced swimming techniques.
-                    </p>
-                </div>
+        <div class="facilities">
+            <h2>Facilities</h2>
+            <div class="card_section">
+                @foreach ($facilities as $facility)
+                    <div class="card">
+                        <img src="{{ asset($facility->image_url) }}" alt="{{ $facility->title }}" />
+                        <h2>{{ $facility->title }}</h2>
+                        <hr />
+                        <p>{{ $facility->description }}</p>
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>
+    <section class="section_3">
+    <h1>Instructors</h1>
+    <div class="Profiles">
+        @foreach ($instructors as $instructor)
+            <div class="profile_card">
+                <img src="{{ asset($instructor->image_url) }}" alt="profile {{ $loop->index + 1 }}" />
+                <div class="content">
+                    <h1>{{ $instructor->name }}</h1>
+                    <p>{{ $instructor->description }}</p>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</section>
 @endsection

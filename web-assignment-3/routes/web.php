@@ -31,10 +31,8 @@ Route::delete('/pricing/{id}', [PricingPlanController::class, 'destroy'])->name(
 Route::get('/pricing/{id}', [PricingPlanController::class, 'show'])->name('pricing.show');
 Route::get('/services', [PricingPlanController::class, 'index'])->name('services');
 });
-Route::get('/home', [SpecialtyController::class, 'index'])->name('home'); // Name the route 'home'
-
-Route::get('/about', [FacilityController::class, 'index'])->name('about'); // Name the route 'about'
-
+Route::get('/home', [SpecialtyController::class, 'index'])->name('home'); 
+Route::get('/about', [FacilityController::class, 'index'])->name('about');
 Route::get('/contact', function () {
     return view('contact');
-})->name('contact'); // Name the route 'contact'
+})->name('contact'); 

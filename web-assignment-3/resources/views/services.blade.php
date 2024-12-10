@@ -57,30 +57,6 @@ extend the master layout. -->
             </div>
           </div>
         </header>
-
-        <!-- Pricing Cards -->
-        <!-- <div class="pricing-cards" id="pricingCardsContainer">
-          <div class="pricing-card">
-            <h3>Personal Training</h3>
-            <p class="price">$30 <span>per hour</span></p>
-            <p class="plan-description">1-on-1 training sessions</p>
-            <button class="pricing-button">Start free trial</button>
-          </div>
-
-          <div class="pricing-card">
-            <h3>Boot Camp</h3>
-            <p class="price">$200 <span>for 8 weeks</span></p>
-            <p class="plan-description">8-week fitness boot camp</p>
-            <button class="pricing-button">Get started</button>
-          </div>
-
-          <div class="pricing-card">
-            <h3>Yoga & Pilates</h3>
-            <p class="price">$15 <span>per session</span></p>
-            <p class="plan-description">Relax with full yoga equipment</p>
-            <button class="pricing-button">Join a Session</button>
-          </div>
-        </div> -->
         <div class="pricing-cards" id="pricingCardsContainer">
           @foreach ($pricingPlans as $plan)
               <div class="pricing-card" data-id="{{ $plan->id }}">

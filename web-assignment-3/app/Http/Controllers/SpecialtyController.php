@@ -10,10 +10,7 @@ class SpecialtyController extends Controller
 {
     public function index()
     {
-        // Fetch all specialties from the database
-        $specialties = Specialty::all();
-
-        // Return the index view with the specialties data
-        return view('index', compact('specialties'));
+        $specialties = Specialty::all(); // getting all specialties from database
+        return view('index', compact('specialties')); // showing index view with specialties
     }
 }

@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Facility;
+use App\Models\Instructor;
 
 class FacilityController extends Controller
 {
     public function index()
     {
-        $facilities = Facility::all(); // Fetch all facilities
-        return view('about', compact('facilities')); // Pass facilities to the view
+        $facilities = Facility::all();
+        $instructors = Instructor::all(); 
+        return view('about', compact('facilities','instructors')); 
     }
 }

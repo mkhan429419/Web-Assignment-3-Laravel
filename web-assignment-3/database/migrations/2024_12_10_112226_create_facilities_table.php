@@ -12,11 +12,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('facilities', function (Blueprint $table) {
-            $table->id(); // Primary key
-            $table->string('title'); // Facility title (e.g., "Well equipped")
-            $table->string('image_url'); // Path or URL of the facility image
-            $table->text('description'); // Description of the facility
-            $table->timestamps(); // Created_at and updated_at
+            $table->id();
+            $table->string('title');
+            $table->string('image_url'); 
+            $table->text('description'); 
+            $table->timestamps();
         });
     }
     /**
